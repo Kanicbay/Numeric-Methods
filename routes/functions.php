@@ -122,14 +122,23 @@
 
     /* Sintaxis a usar
 
+    //Creamos la instancia para la funcion que ingresa el usuario
     $funcionPrueba = new functions("4*x^3-3*x^2+2*x+1");
-    echo $funcionPrueba->getImage(1);
+
+    //Obtenemos el valor de la funcion en un punto
+    $valor1 = $funcionPrueba->getImage($a);
+    
+    //Obtenemos la derivada de la funcion y la guardamos; string
     $derivada = $funcionPrueba->derive();
 
     echo "<br>";
 
+    //Creamos otra instancia functions para la derivada
+
+    //Mandar la derivada anterior como argumento
     $funcionDerivada = new functions($derivada);
-    echo $funcionDerivada->getImage(1);
+
+    $valor2 = $funcionDerivada->getImage($b);
 
     */
 ?>

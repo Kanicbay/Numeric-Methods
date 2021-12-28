@@ -23,24 +23,54 @@
   </head>
   <body>
      
-    <form action="biseccion.php" method="post">
-
-        La ecuación Ingresada debe ser un polinomio de máximo <br/>
-        grado 3, por lo que solo se aceptan ecuaciones de la forma <br/>
-        a*x^3+b*x^2+c*x+d. <br/><br/>
+    <div class="container">
         
-        Ecuación: <input class="form-control" type="text" name="ecuacion" id="">
-        <br/>
-        Valor a: <input class="form-control" type="text" name="a" id="">
-        <br/>
-        Valor b: <input class="form-control" type="text" name="b" id="">
-        <br/>
-        Tolerancia: <input class="form-control" type="text" name="tolerancia" id="">
-        <br/>
-        <button class="btn btn-success" type="submit">Calcular Raiz</button>
+        <div class="row">
+            <div class="col-md-4">
 
+            <br/>
+            <div class="card">
+                <div class="card-header">
+                    Encontrar Raiz por Bisección
+                </div>
+                <div class="card-body">
+                    <form action="biseccion.php" method="post">
+                        <br/> La ecuación Ingresada debe ser un polinomio de máximo 
+                        grado 3, por lo que solo se aceptan ecuaciones de la forma 
+                        a*x^3+b*x^2+c*x+d. <br/><br/>
 
-    </form>
+                        Ecuación: <input class="form-control" type="text" name="ecuacion" id="">
+                        <br/>
+                        Valor a: <input class="form-control" type="text" name="a" id="">
+                        <br/>
+                        Valor b: <input class="form-control" type="text" name="b" id="">
+                        <br/>
+                        Tolerancia: <input class="form-control" type="text" name="tolerancia" id="">
+                        <br/>
+                        <button class="btn btn-success" type="submit">Calcular Raiz</button>
+                    </form>
+                </div>
+                <div class="card-footer text-muted">
+                    La raiz es:  <br/>
+                    La cantidad de iteraciones son: <br/>
+                </div>
+            </div>
+
+            
+            </div>
+            <div class="col-md-4">
+                
+            </div>
+            <div class="col-md-4">
+                
+            </div>
+        </div>
+
+    
+
+    </div>
+
+    
 
   </body>
 </html>
