@@ -10,7 +10,7 @@
             $this->function = $funcion;
         }
 
-        public function evaluate($x){
+        private function getValues(){
             //Crear una copia de la funcion
             $funcion = $this->function;
             
@@ -61,16 +61,32 @@
                 }
             }
 
-            echo $a." ".$b." ".$c." ".$d."<br>";
+            //Imprimir valores
+            //echo $a." ".$b." ".$c." ".$d."<br>";
+
+            //Arreglo a retornar
+            $valores = array($a, $b, $c, $d);
+            return $valores;
+        }
+
+        public function getImage($x){
+            
+            //Obtener valores de la funcion
+            $valores = $this->getValues();
 
             //Formato de la funcion a seguir
-            $functionR = $a*pow($x,3) + $b*pow($x,2) + $c*pow($x,1) + $d;
+            $functionR = floatval($valores[0])*pow($x,3) + floatval($valores[1])*pow($x,2) + floatval($valores[2])*pow($x,1) + floatval($valores[3]);
 
             //Evaluar la funcion
             $this->valueFx = $functionR;
             return $this->valueFx;
         }
 
+        public function derive(){
+            //Obtener valores de la funcion
+            $valores = $this->getValues();
+            
+        }
 
         public function biseccion($a, $b, $tol, $N){
            
