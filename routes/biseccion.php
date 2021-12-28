@@ -17,15 +17,26 @@
     function bisection($ecuacionU, $intervaloA, $intervaloB, $tolerancia){
         $toleranciaAprox=1;
         $contador=0;
+
+        //Convertir string a float
+        $tolerancia = floatval($tolerancia);
+        $intervaloA = floatval($intervaloA);
+        $intervaloB = floatval($intervaloB);
+
+        //Encontrar imagen de a en la ecuacion
+        
         $funcionUser = new functions($ecuacionU);
-        echo "Iteración      Raíz        Error"."<br>";
+        print_r("Iteración\t\tRaíz\t\tError\n");
         $fa=$funcionUser->getImage($intervaloA);
-        while ($toleranciaAprox <= $tolerancia) {
-            $toleranciaAprox=(floatval($intervaloB-$intervaloA))/2;
-            $medio=floatval($intervaloA) + (floatval($intervaloB-$intervaloA))/2;
+
+        echo $toleranciaAprox." y ".$tolerancia;
+
+        while ($tolerancia <= $toleranciaAprox) {
+            $toleranciaAprox=($intervaloB-$intervaloA)/2;
+            $medio=$intervaloA + ($intervaloB-$intervaloA)/2;
             $fmedio=$funcionUser->getImage($medio);
             $contador=$contador+1;
-            echo $contador."   ".$medio."      ".$toleranciaAprox."<br>";
+            print_r($contador."\t\t".$medio."\t\t".$toleranciaAprox);
             if($fmedio==0||$toleranciaAprox<$tolerancia){
                 return $medio;
             }
