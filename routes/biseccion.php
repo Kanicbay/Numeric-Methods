@@ -6,6 +6,42 @@
     /*Crear una instancia --> Esta parte $obj solo es un 
     ejemplo revisar functions para entender sintaxis
     $obj = new functions("x^3+x^2+x+1"); */
+    if($_POST){
+        $ecuacionU = $_POST['ecuacion'];
+        $intervaloA = $_POST['a'];
+        $intervaloB = $_POST['b'];
+        $tolerancia = $_POST['tolerancia'];
+   
+    }
+
+    function bisection($ecuacionU, $intervaloA, $intervaloB, $tolerancia){
+        $toleranciaAprox=1;
+        $contador=0;
+        $funcionUser = new functions($ecuacionU);
+        echo "Iteración      Raíz        Error"."<br>";
+        $fa=$funcionUser->getImage($intervaloA);
+        while ($toleranciaAprox <= $tolerancia) {
+            $toleranciaAprox=(floatval($intervaloB-$intervaloA))/2;
+            $medio=floatval($intervaloA) + (floatval($intervaloB-$intervaloA))/2;
+            $fmedio=$funcionUser->getImage($medio);
+            $contador=$contador+1;
+            echo $contador."   ".$medio."      ".$toleranciaAprox."<br>";
+            if($fmedio==0||$toleranciaAprox<$tolerancia){
+                return $medio;
+            }
+            if($fa*$fmedio>0){
+                $intervaloA=$medio;
+                $fa=$fmedio;
+            }
+            else{
+                $intervaloB=$medio;
+            }
+        }
+    }
+
+
+    $raiz=bisection($ecuacionU, $intervaloA, $intervaloB, $tolerancia);
+    echo "<br>"."La raíz es: ".$raiz;
 
 ?>
 
