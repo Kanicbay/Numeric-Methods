@@ -103,6 +103,9 @@
             if(floatval($valores[2])!=0){
                 $derivada[2] = $valores[2];
             }
+            if(floatval($valores[0])==0 && floatval($valores[1])==0 && floatval($valores[2])==0){
+                $derivada[3] = "0";
+            }
 
             //Unir los elementos
             $derivadaF = implode("+", $derivada); 
