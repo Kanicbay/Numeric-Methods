@@ -4,7 +4,7 @@
 
         public $function;
         public $valueFx;
-        
+        public $derivative;
 
         public function __construct($funcion){
             $this->function = $funcion;
@@ -85,7 +85,34 @@
         public function derive(){
             //Obtener valores de la funcion
             $valores = $this->getValues();
-            
+            $derivada = array();
+
+            //Formato de la funcion a seguir
+            $valores[0] = floatval($valores[0])*3;
+            $valores[1] = floatval($valores[1])*2;
+            $valores[2] = floatval($valores[2])*1;
+            $valores[3] = floatval($valores[3])*0;
+
+            //Crear la derivada
+            if(floatval($valores[0])!=0){
+                $derivada[0] = $valores[0]."x^2";
+            }
+            if(floatval($valores[1])!=0){
+                $derivada[1] = $valores[1]."x";
+            }
+            if(floatval($valores[2])!=0){
+                $derivada[2] = $valores[2];
+            }
+
+            //Unir los elementos
+            $derivadaF = implode("+", $derivada); 
+
+            //Reemplazar signos demás como "+-" o "-+"
+            $derivadaF = str_replace("+-", "-", $derivadaF);
+            $derivadaF = str_replace("-+", "-", $derivadaF);
+
+            $this->derivative = $derivadaF;
+            return $this->derivative;
         }
 
         public function biseccion($a, $b, $tol, $N){
@@ -98,9 +125,17 @@
 
     }
 
-    $funcionPrueba = new functions("-x^2-2");
+    /* Sintaxis a usar
 
-    $funcionPrueba->evaluate(2);
-    echo $funcionPrueba->valueFx;
+    $funcionPrueba = new functions("4*x^3-3*x^2+2*x+1");
+    echo $funcionPrueba->getImage(1);
+    $derivada = $funcionPrueba->derive();
+
+    echo "<br>";
+
+    $funcionDerivada = new functions($derivada);
+    echo $funcionDerivada->getImage(1);
+
+    */
 ?>
 
