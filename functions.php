@@ -118,14 +118,6 @@
             return $this->derivative;
         }
 
-        public function biseccion($a, $b, $tol, $N){
-           
-        } 
-
-        public function newtonR($x0, $tol, $N){
-            
-        }
-
     }
 
     /* Sintaxis a usar

@@ -5,11 +5,12 @@
     ejemplo revisar functions para entender sintaxis
     $obj = new functions("x^3+x^2+x+1"); */
     
-
+    //Agregar metodo biseccion aqui
     function biseccion(){
 
     }
          
+    //Agregar metodo newton aqui
     function newton(){
 
     }
