@@ -6,7 +6,31 @@
     /*Crear una instancia --> Esta parte $obj solo es un 
     ejemplo revisar functions para entender sintaxis
     $obj = new functions("x^3+x^2+x+1"); */
-
+    $n=1;
+    $p=0.00;
+    if($_POST){
+        $x0=$_POST['x0'];
+        $x0 = floatval($x0);
+        $funtion = $_POST['ecuacion'];
+        $tol=$_POST['tolerancia'];
+        $tol = floatval($tol);
+        echo "Interaciones Raiz Error"."<br/>";
+        while($n <= 20){
+            $funcion = new functions($funtion);
+            $f = $funcion->getImage($x0);
+            $Derivada = $funcion->derive();
+            $funcionD = new functions($Derivada);
+            $fprime = $funcionD->getImage($x0); 
+            $p = $x0 - ($f/$fprime);
+            echo $n." ".$p." ".abs($p-$x0)."<br/>";
+            if (($f==0)||(abs($p-$x0) < $tol)) {
+                echo "p es ".$p." y numero de iteraciones es ".$n;
+                break;
+            }
+            $x0 = $p;
+            $n += 1;
+        }
+    }
     
 
 ?>
@@ -43,7 +67,7 @@
 
                         Ecuación: <input class="form-control" type="text" name="ecuacion" id="">
                         <br/>
-                        X0: <input class="form-control" type="text" name="a" id="">
+                        X0: <input class="form-control" type="text" name="x0" id="">
                         <br/>
                         Tolerancia: <input class="form-control" type="text" name="tolerancia" id="">
                         <br/>
