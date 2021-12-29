@@ -1,3 +1,7 @@
+<?php
+    //Nothing here
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
