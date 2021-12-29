@@ -119,7 +119,7 @@
                             }
                             $raiz=bisection($ecuacionU, $intervaloA, $intervaloB, $tolerancia);
                             echo "<br>"."La raiz es: ".$raiz."<br>";
-                            echo "intervalo [".$intervaloA.",".$intervaloB."]";
+                            echo "En el intervalo [".$intervaloA.",".$intervaloB."]";
                         }
                     ?>
                     </pre>
@@ -131,8 +131,19 @@
                 
             
             </div>
-            <div class="col-md-5">
-                
+            <div class="col-md-5" style="height: 38.59rem;">
+                <br/>
+                <div class="card">
+                    <div class="card-header">
+                        Gráfica
+                    </div>
+                    <div class="card-body">
+                        Aqui va la gráfica
+                    </div>
+                    <div class="card-footer text-muted">
+                        
+                    </div>
+                </div>
             </div>
         </div>
     
