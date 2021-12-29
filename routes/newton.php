@@ -1,40 +1,6 @@
 <?php include("head.php"); ?>
 
-<?php
-    //Llamar a la clase functions
-    require("functions.php");
-    /*Crear una instancia --> Esta parte $obj solo es un 
-    ejemplo revisar functions para entender sintaxis
-    $obj = new functions("x^3+x^2+x+1"); */
-    $n=1;
-    $p=0.00;
-    if($_POST){
-        $x0=$_POST['x0'];
-        $x0 = floatval($x0);
-        $funtion = $_POST['ecuacion'];
-        $tol=$_POST['tolerancia'];
-        $tol = floatval($tol);
-        echo "Interaciones Raiz Error"."<br/>";
-        while($n <= 20){
-            $funcion = new functions($funtion);
-            $f = $funcion->getImage($x0);
-            $Derivada = $funcion->derive();
-            $funcionD = new functions($Derivada);
-            $fprime = $funcionD->getImage($x0); 
-            $p = $x0 - ($f/$fprime);
-            $f1 = $funcion->getImage($p);
-            echo $n." ".$p." ".abs($p-$x0)."<br/>";
-            if (($f1==0)||(abs($p-$x0) < $tol)) {
-                echo "p es ".$p." y numero de iteraciones es ".$n;
-                break;
-            }
-            $x0 = $p;
-            $n += 1;
-        }
-    }
-    
 
-?>
 
 <!doctype html>
 <html lang="en">
@@ -53,7 +19,7 @@
     <div class="container">
         
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
 
             <br/>
             <div class="card">
@@ -84,10 +50,86 @@
             
             </div>
             <div class="col-md-4">
+                <br/>
+                <div class="card" style="height: 38.59rem;">
+                    <div class="card-header">
+                        Resultados
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Iter</th>
+                                <th>Raiz</th>
+                                <th>Error</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pre>
+                    <?php
+                        //Llamar a la clase functions
+                        require("functions.php");
+                        /*Crear una instancia --> Esta parte $obj solo es un 
+                        ejemplo revisar functions para entender sintaxis
+                        $obj = new functions("x^3+x^2+x+1"); */
+                        $n=1;
+                        $p=0.00;
+                        if($_POST){
+                            $x0=$_POST['x0'];
+                            $x0WM = $x0;
+                            $x0 = floatval($x0);
+                            $funtion = $_POST['ecuacion'];
+                            $tol=$_POST['tolerancia'];
+                            $tol = floatval($tol);
+                            while($n <= 20){
+                                $funcion = new functions($funtion);
+                                $f = $funcion->getImage($x0);
+                                $Derivada = $funcion->derive();
+                                $funcionD = new functions($Derivada);
+                                $fprime = $funcionD->getImage($x0); 
+                                $p = $x0 - ($f/$fprime);
+                                $f1 = $funcion->getImage($p);
+                                echo "  ".$n."\t\t".round($p,4)."\t\t".round(abs($p-$x0),9)."<br/>";
+                                if (($f1==0)||(abs($p-$x0) < $tol)) {
+                                    break;
+                                }
+                                $x0 = $p;
+                                $n += 1;
+                            }
+
+                            echo "<br>"."La raiz es: ".$p."<br>";
+                            echo "Con x0: ".$x0WM."<br>";
+                            echo "La cantidad de iteraciones son: ".$n."<br>";
+                        }
+                        
+
+                    ?>
+                    </pre>
+                    </div>
+                    <div class="card-footer text-muted">
+                        
+                    </div>
+                </div>
                 
+            
             </div>
-            <div class="col-md-4">
-                
+            <div class="col-md-5" style="height: 38.59rem;">
+                <br/>
+                <div class="card">
+                    <div class="card-header">
+                        Gráfica
+                    </div>
+                    <div class="card-body">
+                        Aqui va la gráfica
+                    </div>
+                    <div class="card-footer text-muted">
+                        
+                    </div>
+                </div>
             </div>
         </div>
 
