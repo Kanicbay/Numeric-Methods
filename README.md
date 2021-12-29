@@ -1,3 +1,9 @@
-# PHPProjectNumericMethods
-Project about numeric methods in order to find roots in functions using PHP. In this repo we will use Bisection and Newton Raphson methods, which were learn in classes, but using Python and Matlab. 
+# Numeric Methods
+In this repository you'll find some of our work in numeric methods such as bisection and newton method in differents languagues.
+That's why we've created this
+- IB
+- IIB
+
+Every folder has homework and project about.
+
 
