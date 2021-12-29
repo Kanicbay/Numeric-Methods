@@ -12,47 +12,49 @@
         $intervaloB = $_POST['b'];
         $tolerancia = $_POST['tolerancia'];
    
-    }
-
-    function bisection($ecuacionU, $intervaloA, $intervaloB, $tolerancia){
-        $toleranciaAprox=1;
-        $contador=0;
-
-        //Convertir string a float
-        $tolerancia = floatval($tolerancia);
-        $intervaloA = floatval($intervaloA);
-        $intervaloB = floatval($intervaloB);
-
-        //Encontrar imagen de a en la ecuacion
-        
-        $funcionUser = new functions($ecuacionU);
-        print_r("Iteración\t\tRaíz\t\tError\n");
-        $fa=$funcionUser->getImage($intervaloA);
-
-        echo $toleranciaAprox." y ".$tolerancia;
-
-        while ($tolerancia <= $toleranciaAprox) {
-            $toleranciaAprox=($intervaloB-$intervaloA)/2;
-            $medio=$intervaloA + ($intervaloB-$intervaloA)/2;
-            $fmedio=$funcionUser->getImage($medio);
-            $contador=$contador+1;
-            print_r($contador."\t\t".$medio."\t\t".$toleranciaAprox);
-            if($fmedio==0||$toleranciaAprox<$tolerancia){
-                return $medio;
-            }
-            if($fa*$fmedio>0){
-                $intervaloA=$medio;
-                $fa=$fmedio;
-            }
-            else{
-                $intervaloB=$medio;
+        function bisection($ecuacionU, $intervaloA, $intervaloB, $tolerancia){
+            $toleranciaAprox=1;
+            $contador=0;
+    
+            //Convertir string a float
+            $tolerancia = floatval($tolerancia);
+            $intervaloA = floatval($intervaloA);
+            $intervaloB = floatval($intervaloB);
+    
+            //Encontrar imagen de a en la ecuacion
+            
+            $funcionUser = new functions($ecuacionU);
+            print_r("Iteración\t\tRaíz\t\tError\n");
+            $fa=$funcionUser->getImage($intervaloA);
+    
+            echo $toleranciaAprox." y ".$tolerancia;
+    
+            while ($tolerancia <= $toleranciaAprox) {
+                $toleranciaAprox=($intervaloB-$intervaloA)/2;
+                $medio=$intervaloA + ($intervaloB-$intervaloA)/2;
+                $fmedio=$funcionUser->getImage($medio);
+                $contador=$contador+1;
+                print_r($contador."\t\t".$medio."\t\t".$toleranciaAprox);
+                if($fmedio==0||$toleranciaAprox<$tolerancia){
+                    return $medio;
+                }
+                if($fa*$fmedio>0){
+                    $intervaloA=$medio;
+                    $fa=$fmedio;
+                }
+                else{
+                    $intervaloB=$medio;
+                }
             }
         }
+    
+    
+        $raiz=bisection($ecuacionU, $intervaloA, $intervaloB, $tolerancia);
+        echo "<br>"."La raíz es: ".$raiz;
+
     }
 
-
-    $raiz=bisection($ecuacionU, $intervaloA, $intervaloB, $tolerancia);
-    echo "<br>"."La raíz es: ".$raiz;
+    
 
 ?>
 

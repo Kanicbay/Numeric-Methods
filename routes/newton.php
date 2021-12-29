@@ -22,8 +22,9 @@
             $funcionD = new functions($Derivada);
             $fprime = $funcionD->getImage($x0); 
             $p = $x0 - ($f/$fprime);
+            $f1 = $funcion->getImage($p);
             echo $n." ".$p." ".abs($p-$x0)."<br/>";
-            if (($f==0)||(abs($p-$x0) < $tol)) {
+            if (($f1==0)||(abs($p-$x0) < $tol)) {
                 echo "p es ".$p." y numero de iteraciones es ".$n;
                 break;
             }
