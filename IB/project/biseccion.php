@@ -11,6 +11,9 @@
     <!-- Bootstrap CSS v5.0.2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+    <script src="https://unpkg.com/mathjs@10.0.1/lib/browser/math.js"></script>
+    <script src="https://cdn.plot.ly/plotly-1.35.2.min.js"></script>
+
   </head>
   <body>
      
@@ -24,12 +27,12 @@
                         Encontrar Raiz por Bisección
                     </div>
                     <div class="card-body">
-                        <form action="biseccion.php" method="post">
+                        <form action="biseccion.php" method="post" id="form">
                             <br/> La ecuación Ingresada debe ser un polinomio de máximo 
                             grado 3, por lo que solo se aceptan ecuaciones de la forma 
                             a*x^3+b*x^2+c*x+d. <br/><br/>
 
-                            Ecuación: <input class="form-control" type="text" name="ecuacion" id="">
+                            Ecuación: <input class="form-control" type="text" name="ecuacion" id="eq">
                             <br/>
                             Valor a: <input class="form-control" type="text" name="a" id="">
                             <br/>
@@ -73,11 +76,12 @@
                         ejemplo revisar functions para entender sintaxis
                         $obj = new functions("x^3+x^2+x+1"); */
                         if($_POST){
+                            echo "hola";
                             $ecuacionU = $_POST['ecuacion'];
                             $intervaloA = $_POST['a'];
                             $intervaloB = $_POST['b'];
                             $tolerancia = $_POST['tolerancia'];
-                    
+                            
                             function bisection($ecuacionU, $intervaloA, $intervaloB, $tolerancia){
                                 $toleranciaAprox=1;
                                 $contador=0;
@@ -138,7 +142,51 @@
                         Gráfica
                     </div>
                     <div class="card-body">
-                        Aqui va la gráfica
+                    <div id="plot"></div>
+                    <p>
+                    Used plot library: <a href="https://plot.ly/javascript/">Plotly</a>
+                    </p>
+
+                    <script>
+                    function draw() {
+                        try {
+                            // compile the expression once
+                            console.log("hola")
+                            const expression = document.getElementById('eq').value
+                            console.log(expression)
+                            const expr = math.compile(expression)
+
+                            // evaluate the expression repeatedly for different values of x
+                            const xValues = math.range(-10, 10, 0.5).toArray()
+                            const yValues = xValues.map(function (x) {
+                                return expr.evaluate({x: x})
+                            })
+
+                            // render the plot using plotly
+                            const trace1 = {
+                                x: xValues,
+                                y: yValues,
+                                type: 'scatter'
+                            }
+                            const data = [trace1]
+                            Plotly.newPlot('plot', data)
+                            console.log("adios")
+                        }
+                        catch (err) {
+                            console.error(err)
+                            alert(err)
+                        }
+                    }
+
+                    document.getElementById('form').onsubmit = function (event) {
+                        event.preventDefault()
+                        draw()
+                    }
+
+                    draw()
+                    
+
+
                     </div>
                     <div class="card-footer text-muted">
                         
