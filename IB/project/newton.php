@@ -84,7 +84,6 @@
                                 $x0WM = $x0;
                                 $x0 = floatval($x0);
                                 $funtion = $_POST['ecuacion'];
-                                echo $funtion;
                                 $tol=$_POST['tolerancia'];
                                 $tol = floatval($tol);
                                 while($n <= 20){
@@ -128,48 +127,6 @@
                     <p>
                     Used plot library: <a href="https://plot.ly/javascript/">Plotly</a>
                     </p>
-
-                    <script>
-                    function draw() {
-                        try {
-                            // compile the expression once
-                            console.log("hola")
-                            const expression = document.getElementById('eq').value
-                            console.log(expression)
-                            const expr = math.compile(expression)
-
-                            // evaluate the expression repeatedly for different values of x
-                            const xValues = math.range(-10, 10, 0.5).toArray()
-                            const yValues = xValues.map(function (x) {
-                                return expr.evaluate({x: x})
-                            })
-
-                            // render the plot using plotly
-                            const trace1 = {
-                                x: xValues,
-                                y: yValues,
-                                type: 'scatter'
-                            }
-                            const data = [trace1]
-                            Plotly.newPlot('plot', data)
-                            console.log("adios")
-                        }
-                        catch (err) {
-                            console.error(err)
-                            alert(err)
-                        }
-                    }
-
-                    document.getElementById('form').onsubmit = function (event) {
-                        event.preventDefault()
-                        draw()
-                    }
-
-                    draw()
-                    
-
-
-                    </div>
                     <div class="card-footer text-muted">
                         
                     </div>
@@ -181,7 +138,43 @@
 
     </div>
 
-    
+    <script>
+        function draw() {
+            try {
+            //Recupear datos guardados en el localStorage
+            const expression = window.localStorage.getItem('expression');
+            const expr = math.compile(expression)
+
+            // evaluate the expression repeatedly for different values of x
+            const xValues = math.range(-10, 10, 0.5).toArray()
+            const yValues = xValues.map(function (x) {
+                return expr.evaluate({x: x})
+            })
+
+            // render the plot using plotly
+            const trace1 = {
+                x: xValues,
+                y: yValues,
+                type: 'scatter'
+            }
+            const data = [trace1]
+            Plotly.newPlot('plot', data)
+            }
+            catch (err) {
+            console.error(err)
+            alert(err)
+            }
+        }
+
+        document.getElementById('form').onsubmit = function (event) {
+            // Buscar el elemento por su ID
+            let expressionM = document.getElementById('eq').value
+            // Guardar el elemento en el localStorage 
+            window.localStorage.setItem('expression', expressionM)
+            draw()
+        }
+        draw()
+    </script>
 
   </body>
 </html>
