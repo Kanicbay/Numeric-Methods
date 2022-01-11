@@ -16,15 +16,16 @@
     <script src="https://unpkg.com/mathjs@10.0.1/lib/browser/math.js"></script>
     <script src="https://cdn.plot.ly/plotly-1.35.2.min.js"></script>
 
+    <link rel="stylesheet" href="../styles/styles.css" media="screen">
+
   </head>
   <body>
      
     <div class="container">
-        
-        <div class="row">
-            <div class="col-md-3">
+        <div class="row row-eq-height">
+            <div class="col-md-3 h-100">
             <br/>
-            <div class="card">
+            <div class="card" style="height: 38.59rem;">
                 <div class="card-header">
                     Encontrar Raiz por Newton Raphson
                 </div>
@@ -34,23 +35,21 @@
                         grado 3, por lo que solo se aceptan ecuaciones de la forma 
                         a*x^3+b*x^2+c*x+d. <br/><br/>
 
-                        Ecuación: <input class="form-control" type="text" name="ecuacion" id="eq">
+                        Ecuación: <input required class="form-control" type="text" name="ecuacion" id="eq">
                         <br/>
                         X0: <input class="form-control" type="text" name="x0" id="">
                         <br/>
                         Tolerancia: <input class="form-control" type="text" name="tolerancia" id="">
                         <br/>
+                        <br/>
+                        <br/>
                         <button class="btn btn-success" type="submit">Calcular Raiz</button>
                     </form>
-                </div>
-                <div class="card-footer text-muted">
-                    La raiz es:  <br/>
-                    La cantidad de iteraciones son: <br/>
                 </div>
             </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4  h-100">
                 <br/>
                 <div class="card" style="height: 38.59rem;">
                     <div class="card-header">
@@ -85,40 +84,43 @@
                                 $x0 = floatval($x0);
                                 $funtion = $_POST['ecuacion'];
                                 $tol=$_POST['tolerancia'];
-                                $tol = floatval($tol);
-                                while($n <= 20){
-                                    $funcion = new functions($funtion);
-                                    $f = $funcion->getImage($x0);
-                                    $Derivada = $funcion->derive();
-                                    $funcionD = new functions($Derivada);
-                                    $fprime = $funcionD->getImage($x0); 
-                                    $p = $x0 - ($f/$fprime);
-                                    $f1 = $funcion->getImage($p);
-                                    echo "  ".$n."\t\t".round($p,4)."\t\t".round(abs($p-$x0),9)."<br/>";
-                                    if (($f1==0)||(abs($p-$x0) < $tol)) {
-                                        break;
+                                if($x0 != null && $funtion != null && $tol != null){
+                                    $tol = floatval($tol);
+                                    while($n <= 20){
+                                        $funcion = new functions($funtion);
+                                        $f = $funcion->getImage($x0);
+                                        $Derivada = $funcion->derive();
+                                        $funcionD = new functions($Derivada);
+                                        $fprime = $funcionD->getImage($x0); 
+                                        $p = $x0 - ($f/$fprime);
+                                        $f1 = $funcion->getImage($p);
+                                        echo "  ".$n."\t\t".round($p,4)."\t\t".round(abs($p-$x0),9)."<br/>";
+                                        if (($f1==0)||(abs($p-$x0) < $tol)) {
+                                            break;
+                                        }
+                                        $x0 = $p;
+                                        $n += 1;
                                     }
-                                    $x0 = $p;
-                                    $n += 1;
+    
+                                    echo "<br>"."La raiz es: ".$p."<br>";
+                                    echo "Con x0: ".$x0WM."<br>";
+                                    echo "La cantidad de iteraciones son: ".$n."<br>";
+                                }
+                                else{
+                                    echo "Puedes visualizar la función"."<br>"."Busca el intervalo adecuado";
                                 }
 
-                                echo "<br>"."La raiz es: ".$p."<br>";
-                                echo "Con x0: ".$x0WM."<br>";
-                                echo "La cantidad de iteraciones son: ".$n."<br>";
                             }
                             
 
                         ?>
                         </pre>
                     </div>
-                    <div class="card-footer text-muted">  
-                    </div>
                 </div>
             </div>
-
-            <div class="col-md-5" style="height: 38.59rem;">
+            <div class="col-md-5  h-100">
                 <br/>
-                <div class="card">
+                <div class="card" style="height: 38.59rem;">
                     <div class="card-header">
                         Gráfica
                     </div>
@@ -127,9 +129,6 @@
                     <p>
                     Used plot library: <a href="https://plot.ly/javascript/">Plotly</a>
                     </p>
-                    <div class="card-footer text-muted">
-                        
-                    </div>
                 </div>
             </div>
         </div>
@@ -175,7 +174,10 @@
         }
         draw()
     </script>
-
+    <br/>
+    <br/>
+        <h1 class="display-3" id="recomen">Puedes ingresar solo la función para busca en la gráfica un intervalo adecuado</h3>
+    <br/>
   </body>
 </html>
 

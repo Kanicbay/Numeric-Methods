@@ -1,5 +1,7 @@
 <?php include("head.php"); ?>
 
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -14,15 +16,16 @@
     <script src="https://unpkg.com/mathjs@10.0.1/lib/browser/math.js"></script>
     <script src="https://cdn.plot.ly/plotly-1.35.2.min.js"></script>
 
+    <link rel="stylesheet" href="../styles/styles.css" media="screen">
+
   </head>
   <body>
      
     <div class="container">
-        
-        <div class="row">
-            <div class="col-md-3">
+        <div class="row row-eq-height">
+            <div class="col-md-3 h-100">
                 <br/>
-                <div class="card">
+                <div class="card"  style="height: 38.59rem;">
                     <div class="card-header">
                         Encontrar Raiz por Bisección
                     </div>
@@ -32,30 +35,27 @@
                             grado 3, por lo que solo se aceptan ecuaciones de la forma 
                             a*x^3+b*x^2+c*x+d. <br/><br/>
 
-                            Ecuación: <input class="form-control" type="text" name="ecuacion" id="eq">
+                            Ecuación: <input required class="form-control" type="text" name="ecuacion" id="eq">
                             <br/>
                             Valor a: <input class="form-control" type="text" name="a" id="a">
                             <br/>
-                            Valor b: <input class="form-control" type="text" name="b" id="b">
+                            Valor b: <input  class="form-control" type="text" name="b" id="b">
                             <br/>
-                            Tolerancia: <input class="form-control" type="text" name="tolerancia" id="tol">
+                            Tolerancia: <input  class="form-control" type="text" name="tolerancia" id="tol">
                             <br/>
                             <button class="btn btn-success" type="submit">Calcular Raiz</button>
                         </form>
                     </div>
-                    <div class="card-footer text-muted">
-
-                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 h-100">
                 <br/>
                 <div class="card" style="height: 38.59rem;">
                     <div class="card-header">
                         Resultados
                     </div>
                     <div class="card-body">
-                        <table class="table">
+                        <table class="table" id="tabla">
                         <thead>
                             <tr>
                                 <th>Iter</th>
@@ -82,74 +82,72 @@
                             $tolerancia = $_POST['tolerancia'];
                             
                             function bisection($ecuacionU, $intervaloA, $intervaloB, $tolerancia){
-                                $toleranciaAprox=1;
-                                $contador=0;
-                        
-                                //Convertir string a float
-                                $tolerancia = floatval($tolerancia);
-                                $intervaloA = floatval($intervaloA);
-                                $intervaloB = floatval($intervaloB);
-                        
-                                //Encontrar imagen de a en la ecuacion
-                                
-                                $funcionUser = new functions($ecuacionU);
-                                $fa=$funcionUser->getImage($intervaloA);
-                        
-                                while ($tolerancia <= $toleranciaAprox) {
-                                    //Encontrar tolearancia Aproximada
-                                    $toleranciaAprox=($intervaloB-$intervaloA)/2;
-
-                                    //Encontrar el punto medio y su imagen
-                                    $medio=$intervaloA + ($intervaloB-$intervaloA)/2;
-                                    $fmedio=$funcionUser->getImage($medio);
-
-                                    $contador=$contador+1;
-
-                                    echo "  ".$contador."\t\t".round($medio,4)."\t\t".$toleranciaAprox."<br/>";
-
-                                    //Aplicar el algoritmo para cambiar puntos
-                                    if($fmedio==0||$toleranciaAprox<$tolerancia){
-                                        return $medio;
-                                    }
-                                    if($fa*$fmedio>0){
-                                        $intervaloA=$medio;
-                                        $fa=$fmedio;
-                                    }
-                                    else{
-                                        $intervaloB=$medio;
+                                if($intervaloA != null && $intervaloB != null && $tolerancia != null){
+                                    $toleranciaAprox=1;
+                                    $contador=0;
+                            
+                                    //Convertir string a float
+                                    $tolerancia = floatval($tolerancia);
+                                    $intervaloA = floatval($intervaloA);
+                                    $intervaloB = floatval($intervaloB);
+                            
+                                    //Encontrar imagen de a en la ecuacion
+                                    
+                                    $funcionUser = new functions($ecuacionU);
+                                    $fa=$funcionUser->getImage($intervaloA);
+                            
+                                    while ($tolerancia <= $toleranciaAprox) {
+                                        //Encontrar tolearancia Aproximada
+                                        $toleranciaAprox=($intervaloB-$intervaloA)/2;
+    
+                                        //Encontrar el punto medio y su imagen
+                                        $medio=$intervaloA + ($intervaloB-$intervaloA)/2;
+                                        $fmedio=$funcionUser->getImage($medio);
+    
+                                        $contador=$contador+1;
+    
+                                        echo "  ".$contador."\t\t".round($medio,4)."\t\t".$toleranciaAprox."<br/>";
+    
+                                        //Aplicar el algoritmo para cambiar puntos
+                                        if($fmedio==0||$toleranciaAprox<$tolerancia){
+                                            return $medio;
+                                        }
+                                        if($fa*$fmedio>0){
+                                            $intervaloA=$medio;
+                                            $fa=$fmedio;
+                                        }
+                                        else{
+                                            $intervaloB=$medio;
+                                        }
                                     }
                                 }
                             }
-                            $raiz=bisection($ecuacionU, $intervaloA, $intervaloB, $tolerancia);
-                            echo "<br>"."La raiz es: ".$raiz."<br>";
-                            echo "En el intervalo [".$intervaloA.",".$intervaloB."]";
+
+                            if($intervaloA != null && $intervaloB != null && $tolerancia != null){
+                                $raiz=bisection($ecuacionU, $intervaloA, $intervaloB, $tolerancia);
+                                echo "<br>"."La raiz es: ".$raiz."<br>";
+                                echo "En el intervalo [".$intervaloA.",".$intervaloB."]";
+                            }
+                            else{
+                                echo "Puedes visualizar la función"."<br>"."Busca el intervalo adecuado";
+                            }
                         }
                     ?>
                     </pre>
                     </div>
-                    <div class="card-footer text-muted">
-                        
-                    </div>
                 </div>
-                
-            
             </div>
-            <div class="col-md-5" style="height: 38.59rem;">
+            <div class="col-md-5 h-100">
                 <br/>
-                <div class="card">
+                <div class="card" style="height: 38.59rem;">
                     <div class="card-header">
                         Gráfica
                     </div>
                     <div class="card-body">
-                    <div id="plot"></div>
+                    <div id="plot" id="plotG"></div>
                     <p>
                     Used plot library: <a href="https://plot.ly/javascript/">Plotly</a>
                     </p>
-
-                    
-                    <div class="card-footer text-muted">
-                        
-                    </div>
                 </div>
             </div>
         </div>
@@ -194,7 +192,10 @@
         }
         draw()
     </script>
-
+    <br/>
+    <br/>
+        <h1 class="display-3" id="recomen">Puedes ingresar solo la función para busca en la gráfica un intervalo adecuado</h3>
+    <br/>
   </body>
 </html>
 
