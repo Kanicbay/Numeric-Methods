@@ -25,10 +25,10 @@
 </head>
 <body>
 
-<div class="container-fluid">
-    <div class="row">
+<div class="container-fluid" id="containter-nav">
+    <div class="row" id="genarrow">
         <nav class="navbar navbar-expand-md border-3 navbar-light" id="barraNav">
-            <div class="container-fluid">
+            <div class="container-fluid" id="barraNav2">
                 <a class="navbar-brand">Proyecto Métodos Numéricos</a>
                 <button type="button" class="navbar-toggler">
                     <span class="navbar-toggler-icon"></span>
@@ -53,6 +53,9 @@
                         <li class="nav-item">
                         <a href="cazadorPresa.php" class="nav-link">Cazador Presa</a>
                         </li> 
+                        <li class="nav-item">
+                        <a href="Ciberseguridad.php" class="nav-link">Ciberseguridad</a>
+                        </li>
                     </ul>
                 </div>
     </div>

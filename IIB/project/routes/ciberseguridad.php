@@ -3,7 +3,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Cazador Presa Method</title>
+    <title>Ciberseguridad Project</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,9 +22,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 h-100" id="colPD">
-                <h2>Sistemas de Ecuaciones Diferenciales</h2>
+                <h2>Proyecto Cazador-Presa aplicado a Ciberseguridad</h2>
                 <br/>
-                <h3>Método Cazador Presa</h3>
+                <h3>Planteamiento del problema</h3>
                 <hr>
                 <p class="lead">El siguiente estudio toma en cuenta un ambiente con cierta cantidad de depredadores y 
                     presas, esto con el fin de analizar la tasa de cambio en el tiempo para ambos en función de ecuaciones
@@ -71,7 +71,7 @@
             <hr>
             <br/>
             <div class="col-md-6 h-100">
-                <form action="cazadorPresa.php" method="post" id="form">
+                <form action="ciberseguridad.php" method="post" id="form">
                     <h4>Coeficientes</h4> <br/>
                     Razón de crecimiento de la presa (a): <input required class="form-control" type="text" name="a" id="a">
                     <br/>

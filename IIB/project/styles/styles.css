@@ -27,11 +27,7 @@
     align-items: center;
 }
 
-#barraNav{
-    background-color: #61D2CD;
-    font-weight: bold;
 
-}
 
 #beginPartners{
     font-size: 200%;
@@ -74,3 +70,41 @@
 #recomen {
     font-size: 130%;
 }
+
+/*Barra de Navegación*/
+
+#genarrow{
+    background: rgb(24, 21, 21);
+    color: #fff;
+    padding: 0px 20px; 
+    font-size: 1.2rem;
+
+}
+
+.ds-menu ul li{
+    position: relative;
+}
+
+#menuNavegacion ul li a{
+    cursor: pointer;
+    color: #fff;
+    background: transparent;
+    width: 100%;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#barraNav2 a{
+    color: #fff;
+}
+
+#menuNavegacion ul li a:hover{
+    background: #1ba5af;
+    color: #fff;
+}
+
