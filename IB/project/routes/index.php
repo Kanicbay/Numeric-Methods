@@ -27,13 +27,10 @@
                             <li>Fabricio Simbaña</li>
                         </ul>
                     </p>
-                    </br>
                     <h1 class="display-3" id="resumen">Este proyecto tiene como fin mostrar el funcionamiento de los métodos de bisección y newton para encontrar raices</h1>
-                    </br>
                     <hr class="my-2">
-                    </br>
                     <p>Más información</p>
-                    <a title="GitHub" href="https://github.com/Kanicbay/Numeric-Methods"><img src="../images/github.png" id="github"></img></a>
+                    <a title="GitHub" href="https://github.com/Kanicbay/Numeric-Methods/tree/main/IB/project"><img src="../images/github.png" id="github"></img></a>
                 </div>
             </div>
         </div>

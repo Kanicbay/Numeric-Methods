@@ -24,11 +24,15 @@
             <div class="col-md-12 h-100" id="colPD">
                 <h2>Ecuaciones Diferenciales Ordinarias </h2>
                 <br/>
-                <h3>Método de Taylor</h3>
-                <ul style="font-size: 18px; ">
-                    <li><b>x0 :</b> x0</li>
-                    <li><b>y0 :</b> y0</li>
-                    <li><b>h :</b> h</li>
+                <h3>Método de Rungekutta</h3>
+                <br/>
+                <p>Para este método se toma la siguiente ecuación de referencia. </p>
+                <img src="http://latex.codecogs.com/svg.latex?\frac{dy}{dx}&space;=&space;y&space;&plus;&space;x&space;-&space;x^{2}&space;&plus;1" title="http://latex.codecogs.com/svg.latex?\frac{dy}{dx} = y + x - x^{2} +1" />
+                <br/><br/>
+                <ul style="font-size: 16px; ">
+                    <li><b>Valor Inicial para X</b> x0</li>
+                    <li><b>Valor Inicial para Y :</b> y0</li>
+                    <li><b>Tamaño de paso :</b> h</li>
                     <li><b>muestras :</b> muestras</li>
                 </ul>
             </div>
@@ -41,17 +45,13 @@
             <hr>
             <br/>
             <div class="col-md-6 h-100">
-                <form action="taylor.php" method="post" id="form">
+                <form action="rungekutta.php" method="post" id="form">
                     <h4>Coeficientes</h4> <br/>
-                    f: <input required class="form-control" type="text" name="f" id="f">
-                    <br/>
-                    g: <input required class="form-control" type="text" name="g" id="g">
-                    <br/>
                     x0: <input required class="form-control" type="text" name="x0" id="x0">
                     <br/>
-                    y0: <input required class="form-control" type="text" name="y0" id="muestras">
+                    y0: <input required class="form-control" type="text" name="y0" id="y0">
                     <br/>
-                    h: <input required class="form-control" type="text" name="h" id="muestras">
+                    h: <input required class="form-control" type="text" name="h" id="h">
                     <br/>
                     muestras: <input required class="form-control" type="text" name="muestras" id="muestras">
                     <br/>
@@ -61,7 +61,7 @@
                 
             <div class="col-md-6 h-100">
                 <h4>Resultados</h4> <br/> 
-                <div class="card" id="dataCard">
+                <div class="card" id="dataCard" style="height: 300px;";>
                     <div class="card-body">
                         <pre>
                         <?php
@@ -84,51 +84,38 @@
                                 $h = floatval($h);
                                 $muestras = floatval($muestras);
 
-
-                                function d1y($x,$y)
+                                function f($x,$y)
                                 {
-                                    $ecuac = $y - pow($x,2) + $x + 1;
+                                    $ecuac = $y+$x-pow($x,2)+1;
                                     return $ecuac;
                                 }
 
-                                function d2y($x,$y)
-                                {
-                                    $ecuac = $y - pow($x,2) + $x + 2;
-                                    return $ecuac;
-                                }
-
-
-                                function tabla_taylor($x0, $y0 , $h, $muestras){
+                                function tabla_rungekutta($x0, $y0 , $h, $muestras){
                                     $i=0;
-                                    $tamano = $muestras + 1;
+                                    $tamano = $muestras;
                                     $tabla = array();
-                                    $d1yi = d1y($x0,$y0);
-                                    $d2yi = d2y($x0,$y0);
-                                    $tabla[$i] = array('xi' => $x0,'yi' => $y0,'d1yi' => $d1yi,'d2yi' => $d2yi);
+                                    $tabla[$i++] = array('xi' => $x0,'yi' => $y0);
+                                    echo sprintf("%.1f\t\t%f\n", $x0, $y0);
 
                                     $x = $x0;
                                     $y = $y0;
 
                                     for($z=0; $z<$tamano; $z++){
-                                        $d1y = d1y($x,$y);
-                                        $d2y = d2y($x,$y);
-                                        $tabla[$i] = array('d1yi' => $d1y,'d2yi' => $d2y);
+                                        $k1 = $h*f($x,$y);
+                                        $k2 = $h*f($x+$h,$y+$k1);
                                         
-                                        $y = $y + $h*$d1y + (pow($h,2)/2)*$d2y;
+                                        $y = $y + ($k1 + $k2)/2;
                                         $x = $x + $h;
-                                        
-                                        $tabla[$i] = array('xi' => $x,'yi' => $y);
-                                        $i++;
-                                        echo sprintf("%f\t\t%f\t%f\t\t%f\n", $x, $y, $d1y, $d2y);
+
+                                        $tabla[$i++] = array('xi' => $x,'yi' => $y);
+                                        echo sprintf("%.1f\t\t%f\n", $x, $y);
                                     }
                                     
                                     return $tabla;
-                                }
+                                }                              
 
-
-                                
                                 // Driver method
-                                $respuesta = tabla_taylor($x0, $y0 ,$h, $muestras);
+                                $respuesta = tabla_rungekutta($x0, $y0 ,$h, $muestras);
                                 echo "<script>
                                     window.localStorage.setItem('respuesta', JSON.stringify(".json_encode($respuesta)."));
                                 </script>";
@@ -151,10 +138,10 @@
             <h3>Gráficas</h3>
             <hr>
             <br/>
-            <div class="col-md-6 h-100">
+            <div class="col-md-12 h-100">
                 <div class="card" style="height: 38.59rem;">
                     <div class="card-header">
-                        Método de la secante
+                        Método Rungekutta
                     </div>
                     <div class="card-body">
                         <div id="plot" id="plotG"></div>
@@ -173,54 +160,30 @@
                 //Recupear datos guardados en el localStorage
                 let values = window.localStorage.getItem('respuesta');
 
-                document.getElementById('form').onsubmit = function (event) {
-                    a = document.getElementById('a').value;
-                    b = document.getElementById('b').value;
-                    tramos = document.getElementById('tramos').value;
-                }
+                values = JSON.parse(values);
 
-                
-
-                /*values = JSON.parse(values);
-
-                let xaValues = [];
-                let xbValues = [];
-                let xcValues = [];
-                let trValues = [];
+                let xValues = [];
+                let yValues = [];
 
 
                 for (let item of values) {
-                    xaValues.push(item.xa);
-                    xbValues.push(item.xb);
-                    xcValues.push(item.xc);
-                    trValues.push(item.tramo);
+                    xValues.push(item.xi);
+                    yValues.push(item.yi);
                 }
+
+
 
                 // render the plot using plotly
                 const trace = {
-                    x: xaValues,
-                    y: xbValues,
-                    type: 'scatter'
-                }
-
-                /*const traceT1 = {
-                    x: tValues,
-                    y: xValues,
-                    type: 'scatter',
-                    name: "Depredadores"
-                }
-
-                const traceT2 = {
-                    x: tValues,
+                    x: xValues,
                     y: yValues,
-                    type: 'scatter',
-                    name: "Presas"
+                    type: 'scatter'
                 }
                 
                 const data = [trace];
                 //const data2 = [traceT1, traceT2];
 
-                Plotly.newPlot('plot', data);*/
+                Plotly.newPlot('plot', data);
                 //Plotly.newPlot('plot2', data2);
             }
             catch (err) {

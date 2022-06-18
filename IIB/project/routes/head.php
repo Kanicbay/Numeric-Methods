@@ -39,7 +39,7 @@
                             <a href="index.php" class="nav-link">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a href="secante.php" class="nav-link">Secante</a>
+                            <a href="secanteNuevo.php" class="nav-link">Secante</a>
                         </li>
                         <li class="nav-item">
                             <a href="falsaPosicion.php" class="nav-link">Falsa Posición</a>
@@ -48,14 +48,11 @@
                             <a href="taylor.php" class="nav-link">Taylor</a>
                         </li> 
                         <li class="nav-item">
-                            <a href="rungekutta.php" class="nav-link">Rungekutta</a>
-                        </li> 
-                        <li class="nav-item">
                         <a href="cazadorPresa.php" class="nav-link">Cazador Presa</a>
-                        </li> 
-                        <li class="nav-item">
-                        <a href="Ciberseguridad.php" class="nav-link">Ciberseguridad</a>
                         </li>
+                        <li class="nav-item">
+                        <a href="rungekutta.php" class="nav-link">Rungekutta</a>
+                        </li>  
                     </ul>
                 </div>
     </div>

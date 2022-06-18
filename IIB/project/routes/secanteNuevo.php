@@ -3,7 +3,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Falsa Posición Method</title>
+    <title>Secante Method</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,13 +22,15 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 h-100" id="colPD">
-                <h2>Encontrar Raiz </h2>
+                <h2>Encontrar Puntos </h2>
                 <br/>
-                <h3>Método de la Falsa Posición</h3>
+                <h3>Método de la Secante</h3>
                 <ul style="font-size: 18px; ">
                     <li><b>a :</b> a</li>
                     <li><b>b :</b> b</li>
+                    <li><b>xa :</b> xa</li>
                     <li><b>tolerancia :</b> tolerancia</li>
+                    <li><b>tramos :</b> tramos</li>
                 </ul>
             </div>
         </div>
@@ -40,7 +42,7 @@
             <hr>
             <br/>
             <div class="col-md-6 h-100">
-                <form action="falsaPosicion.php" method="post" id="form">
+                <form action="secanteNuevo.php" method="post" id="form">
                     <h4>Coeficientes</h4> <br/>
                     ecuación (d): <input required class="form-control" type="text" name="ecuacion" id="ecuacion">
                     <br/>
@@ -48,7 +50,11 @@
                     <br/>
                     (b): <input required class="form-control" type="text" name="b" id="b">
                     <br/>
+                    (xa): <input required class="form-control" type="text" name="xa" id="xa">
+                    <br/>
                     tolerancia (d): <input required class="form-control" type="text" name="tolerancia" id="tolerancia">
+                    <br/>
+                    tramos (d): <input required class="form-control" type="text" name="tramos" id="tramos">
                     <br/>
                     <button class="btn btn-success" type="submit"><b>Ejecutar</b></button>
                 </form>
@@ -70,61 +76,50 @@
                                 $ecuacionU = $_POST['ecuacion'];
                                 $a = $_POST['a'];
                                 $b = $_POST['b'];
+                                $xa = $_POST['xa'];
                                 $tolerancia = $_POST['tolerancia'];
+                                $tramos = $_POST['tramos'];
                                 
                                 //Convertir string a float
 
                                 $a = floatval($a);
                                 $b = floatval($b);
+                                $xa = floatval($xa);
                                 $tolerancia = floatval($tolerancia);
+                                $tramos = floatval($tramos);
 
-                                function tabla_falsa($ecuacion, $a, $b,$tolerancia){
-                                    $i = 1;
+                                function tabla_secante($ecuacion, $xa, $tolerancia){
+                                    $i = 0;
                                     $funcionUser = new functions($ecuacion);
-                                    $tramo = abs($b-$a);
-                                    echo "<b>".sprintf("%s\t\t%s\t\t%s\n", "n", "c","Tramo")."</b>";
+                                    $dx = 4*$tolerancia;
+                                    $xb = $xa + $dx;
+                                    $tramo = $dx;
+                                    $tabla = array();
+
+                                    echo "<b>".sprintf("%s\t\t%s\t\t%s\t\t%s\n", "Xa", "Xb","Xc","Tramo")."</b>";
                                     echo "<hr>";
                                     
-                                    function sign($fx){
-                                        if($fx > 0){
-                                            return 1;
-                                        }else if($fx < 0){
-                                            return -1;
-                                        }else{
-                                            return 0;
-                                        }
+
+                                    while($tramo>=$tolerancia){
+                                        $fa= $funcionUser->getImage($xa);
+                                        $fb= $funcionUser->getImage($xb);
+                                        $xc = $xa - $fa*($xb-$xa)/($fb-$fa);
+                                        $tramo = abs($xc-$xa);
+
+                                        $tabla[$i++] = array('xa' => $xa,'xb' => $xb,'xc' => $xc,'tramo' => $tramo);
+                                        echo sprintf("%.3f\t\t%f\t%f\t%f.3\n", $xa, $xb, $xc, $tramo);
+                                        $xb = $xa;
+                                        $xa = $xc;
                                     }
 
-                                    while ($tramo>=$tolerancia){
-                                        $fa= $funcionUser->getImage($a);
-                                        $fb= $funcionUser->getImage($b);
-                                        $c = $b-$fb*($a-$b)/($fa-$fb);
-                                        $fc= $funcionUser->getImage($c);
-
-                                        $cambio = sign($fa)*sign($fc);
-
-                                        $tabla[$i++] = array('n' => $i,'c' => $c,'tramo' => $tramo);
-
-                                        echo sprintf("%d\t\t%f\t%f\n", $i, $c, $tramo);
-                                        $i++;
-                                        if ($cambio>0){
-                                            $tramo = abs($c-$a);
-                                            $a = $c;
-                                        }
-                                        else{
-                                            $tramo = abs($b-$c);
-                                            $b = $c;
-                                        }
-                                    }
-
-                                    echo sprintf("\nLa raiz de la ecuación es: %f", $c);
+                                    echo sprintf("\nLa raiz de la ecuación es: %f", $xc);
                                     return $tabla;
                                 }
 
 
                                 
                                 // Driver method
-                                $respuesta = tabla_falsa($ecuacionU , $a, $b,$tolerancia);
+                                $respuesta = tabla_secante($ecuacionU ,$xa, $tolerancia);
                                 echo "<script>
                                     window.localStorage.setItem('respuesta', JSON.stringify(".json_encode($respuesta)."));
                                 </script>";
@@ -168,16 +163,11 @@
             try {
                 //Recupear datos guardados en el localStorage
                 let values = window.localStorage.getItem('respuesta');
+                a = document.getElementById('a').value;
+                b = document.getElementById('b').value;
+                tramos = document.getElementById('tramos').value;
 
-                document.getElementById('form').onsubmit = function (event) {
-                    a = document.getElementById('a').value;
-                    b = document.getElementById('b').value;
-                    tramos = document.getElementById('tramos').value;
-                }
-
-                
-
-                /*values = JSON.parse(values);
+                values = JSON.parse(values);
 
                 let xaValues = [];
                 let xbValues = [];
@@ -211,12 +201,12 @@
                     y: yValues,
                     type: 'scatter',
                     name: "Presas"
-                }
+                }*/
                 
                 const data = [trace];
                 //const data2 = [traceT1, traceT2];
 
-                Plotly.newPlot('plot', data);*/
+                Plotly.newPlot('plot', data);
                 //Plotly.newPlot('plot2', data2);
             }
             catch (err) {
